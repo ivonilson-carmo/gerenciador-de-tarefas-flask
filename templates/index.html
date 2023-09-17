@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Gerenciador de tarefas </title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <h1> Gerenciador de Tarefas </h1>
+    <main>
+        <div class="content-header">
+            <form method="POST">
+                <input type="text" class="text-task" name="text-task" autocomplete="off" maxlength="120"/>
+                <button>
+                    <i class="bi bi-plus-square"></i>
+                </button>
+                <div class="row"></div>
+            </form>
+        </div>
+        
+        <div class="content-task">
+
+            {% for identify, task, date_created, date_finished in tasks %}
+            <div class="item-task">
+                <form action="check" method="POST">
+                    {% if (date_finished != None) %}
+                        <input type="checkbox" name="check-task" checked disabled>
+                    {% else %}
+                        <input type="checkbox" name="check-task" value="{{ identify }}" onchange="this.form.submit()" >
+                    {% endif %}
+                </form>
+                <div>
+                    <h2 class="title" id="{{identify}}">  {{ task }} </h2>
+                    <p class="date-created"> Criado em: {{ date_created }} </p>
+                    <p class="date-finished"> {{ 'Concluido em: {}'.format(date_finished) if date_finished else '' }} </p>
+                </div>
+                <form action="/remove" method="post" class="remove">
+                    <input type="text" value="{{ identify }}" name="identify">
+                    <button>
+                        <i class="bi bi-x-square"></i>
+                    </button>
+                    
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script>
+        document.querySelector('.content-header form').addEventListener(
+            'submit', event => {
+                const task = document.querySelector('.content-header input.text-task');
+                
+                if (task.value == ''){
+                    alert('Digite algo para continuar!!');
+                    event.preventDefault()
+                }
+            }
+        )
+    </script>
+</body>
+</html>
