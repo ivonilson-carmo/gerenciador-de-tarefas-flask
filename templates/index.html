@@ -40,7 +40,7 @@
                 <div>
                     <h2 class="title" id="{{identify}}">  {{ task }} </h2>
                     <p class="date-created"> Criado em: {{ date_created }} </p>
-                    <p class="date-finished"> {{ 'Concluido em: {}'.format(date_finished) if date_finished else '' }} </p>
+                    <p class="date-finished"> {{ 'Concluido em: {}'.format(date_finished) if (date_finished != None) else '' }} </p>
                 </div>
                 <form action="/remove" method="post" class="remove">
                     <input type="text" value="{{ identify }}" name="identify">

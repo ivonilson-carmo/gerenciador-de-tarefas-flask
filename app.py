@@ -5,6 +5,7 @@ from tools.manager import Manager
 
 app = Flask(__name__)
 manager = Manager()
+standart_date = datetime.strptime('2001-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
 
 
 @app.route('/', methods=['POST'])
@@ -20,7 +21,7 @@ def indexPOST():
 @app.route('/', methods=['GET'] )
 def indexGET():
     task_list = manager.getTasks()
-    return render_template('index.html', tasks=task_list)
+    return render_template('index.html', tasks=task_list, standart_date=str(standart_date) )
 
 @app.route('/check', methods=['POST'])
 def checkTask():

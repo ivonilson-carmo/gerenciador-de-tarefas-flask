@@ -1,4 +1,7 @@
+from datetime import datetime
 import sqlite3
+
+
 
 class Manager:
     def __init__(self):
@@ -33,6 +36,7 @@ class Manager:
     
     def addTask(self, task, date_created):
         """ Adciona registro de tarefa no sistema """
+        date = datetime.strptime('2001-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
 
         script = 'INSERT INTO tasks (task, date_created, date_finished) VALUES (?, ?, ?)'
         self.cursor.execute(script, (task, date_created, None))
@@ -60,10 +64,15 @@ class Manager:
         self.db, self.cursor = self.connect()
     
     def getTasks(self):
-        """ Retorna todas tarefas do banco de dados numa lista """
-        script = 'SELECT * FROM tasks'
-        busca = self.cursor.execute(script)
-        result = busca.fetchall()
+        """ Retorna todas tarefas do banco de dados numa lista
+         sendo primeiro as tarefas comuns e após isso as que ja foram concluidas  """
+
+        # busca das tarefas que nao foram concluida
+        activeTasks = self.cursor.execute('SELECT * FROM tasks WHERE date_finished IS NULL ')
+        result = activeTasks.fetchall()
+        # busca as tarefas que foram concluidas
+        finishedTasks = self.cursor.execute('SELECT * FROM tasks WHERE date_finished IS NOT NULL')
+        result += finishedTasks.fetchall()
 
         return result 
     
