@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from datetime import datetime
 from tools.manager import Manager
 
@@ -10,12 +10,43 @@ standart_date = datetime.strptime('2001-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
 
 @app.route('/', methods=['POST'])
 def indexPOST():
-    task = request.form['text-task']
-    date_created = datetime.now().strftime('%Y-%m-%d %H:%M')
+    if request.form.get('action'):
+        action = request.form['action']
 
-    manager.addTask(task, date_created)
+        if action == 'add':
+            task = request.form.get('task')
+            date_created = datetime.now().strftime('%Y-%m-%d %H:%M')
+            new_item = manager.addTask(task, date_created)
 
-    return redirect('/')
+            data = {
+                'task':task,
+                'date_created': date_created,
+                'identify': new_item,
+            }
+
+
+            return jsonify(data)
+        
+        elif action == 'remove':
+            identify = int(request.form['identify'])
+            manager.removeTask(identify)
+
+            return jsonify({})
+        
+        elif action == 'check':
+            date = datetime.now().strftime('%Y-%m-%d %H:%M')
+            identify = int(request.form['identify'])
+            print(identify)
+
+            manager.checkTask(identify, date)
+
+            return jsonify({
+                'data': str(date),
+            })
+    else:
+        return 'não era pra eu aparecer aqui'
+
+
 
 
 @app.route('/', methods=['GET'] )
@@ -23,25 +54,7 @@ def indexGET():
     task_list = manager.getTasks()
     return render_template('index.html', tasks=task_list, standart_date=str(standart_date) )
 
-@app.route('/check', methods=['POST'])
-def checkTask():
-    identify = request.form.getlist('check-task')
-    date = datetime.now().strftime('%Y-%m-%d %H:%M')
-
-    if identify:
-        manager.checkTask(identify[0], date)
-
-    return redirect('/')
-
-@app.route('/remove', methods=['post'])
-def removeTasks():
-    identify = request.form['identify']
-
-    manager.removeTask(identify)
-
-    return redirect('/')
-
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

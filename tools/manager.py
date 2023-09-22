@@ -38,9 +38,11 @@ class Manager:
         """ Adciona registro de tarefa no sistema """
         date = datetime.strptime('2001-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
 
-        script = 'INSERT INTO tasks (task, date_created, date_finished) VALUES (?, ?, ?)'
-        self.cursor.execute(script, (task, date_created, None))
+        exec_script = self.cursor.execute(
+            'INSERT INTO tasks (task, date_created, date_finished) VALUES (?, ?, ?)', (task, date_created, None))
         self.saveDB()
+
+        return exec_script.lastrowid
     
     def checkTask(self, identify, date):
         """ Marca tarefa como concluida """
@@ -70,6 +72,7 @@ class Manager:
         # busca das tarefas que nao foram concluida
         activeTasks = self.cursor.execute('SELECT * FROM tasks WHERE date_finished IS NULL ')
         result = activeTasks.fetchall()
+        
         # busca as tarefas que foram concluidas
         finishedTasks = self.cursor.execute('SELECT * FROM tasks WHERE date_finished IS NOT NULL')
         result += finishedTasks.fetchall()
