@@ -154,3 +154,18 @@ h1{
     background: none;
     border:  none;
 }
+
+@media (max-width: 661px){
+    main{
+        width: 90%;
+    }
+}
+
+@media (max-width: 500px){
+    .item-task h2{
+        font-size: 1em;
+    }
+    .item-task p{
+        font-size: .8em;
+    }
+}
