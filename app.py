@@ -36,15 +36,14 @@ def indexPOST():
         elif action == 'check':
             date = datetime.now().strftime('%Y-%m-%d %H:%M')
             identify = int(request.form['identify'])
-            print(identify)
 
             manager.checkTask(identify, date)
 
             return jsonify({
-                'data': str(date),
+                'date': str(date),
             })
     else:
-        return 'não era pra eu aparecer aqui'
+        return ''
 
 
 
@@ -57,4 +56,4 @@ def indexGET():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

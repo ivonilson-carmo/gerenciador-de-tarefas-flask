@@ -1,4 +1,4 @@
-$(document).on('change', 'input[name="check-task"]', event=>{
+$(document).on('change', 'input[name="check"]', event=>{
     event.preventDefault();
     const identify = event.target.value;
 
@@ -7,17 +7,18 @@ $(document).on('change', 'input[name="check-task"]', event=>{
         type: 'post',
         data: { action: 'check', identify },
         success: function (response){
-            const msg = `Completada em: ${response.data}`
-            event.target.parentNode.querySelector('p.date-finished').innerText = msg;
+            const msg = `Completada em: ${response.date}`
+            event.target.parentNode.parentNode.querySelector('p.date-completed').innerText = msg;
             event.target.disabled = true;
         }
     }); //  fim da requisição
 }); // fim da função
 
-$(document).on('submit', 'form.remove',  event => {
+
+$(document).on('click', '.content-remove',  event => {
     event.preventDefault();
-    const identify = event.target.querySelector('input').value
-    const itemTask = event.target.parentNode
+    const identify = event.target.getAttribute('data-id')
+    const itemTask = event.target.parentNode.parentNode // div.item-task
     
     $.ajax({
         url: '/',
@@ -29,11 +30,12 @@ $(document).on('submit', 'form.remove',  event => {
     }); // fim da requisição
 }); // fim da função
 
+
 $(document).on('submit', '.content-header form', event => {
         // só chama o a função para acrescentar tarefa se tiver texto digitado das tarefas
-        const task = document.querySelector('.content-header input.text-task');
+        const task = document.querySelector('.content-header input');
         event.preventDefault()
-        
+        console.log('oi')
         if (task.value == ''){
             alert('Digite algo para continuar!!');
         }else{
@@ -44,20 +46,20 @@ $(document).on('submit', '.content-header form', event => {
                 data: {task: task.value, action: 'add'},
                 success: function(response) {
                     let template = `
-                        <div class="item-task">
-                        <input type="checkbox" name="check-task" value="${response.identify}" " >
-                        <div>
-                            <h2 class="title" id="${response.identify}"> ${response.task} </h2>
-                            <p class="date-created"> Criado em: ${response.date_created} </p>
-                            <p class="date-finished">  </p>
-                        </div>
-                        <form action="/remove" method="post" class="remove">
-                            <input type="text" value="${response.identify}" name="identify">
-                            <button>
-                                <i class="bi bi-x-square"></i>
-                            </button>
-                        </form>
-                    </div>`
+                        <div class="iten-task mb-3 d-flex mx-2 p-2 border-1 border-bottom">
+                            <form action="" class="check-task" class="d-flex">
+                                <input type="checkbox" name="check" id="check-task" value="${response.identify} ">
+                            </form>
+
+                            <div class="content-info m-0 row flex-grow-1">
+                                <p class="title-task fs-6 col-12 text-break mb-1"> ${task.value} </p>
+                                <p class="date-created col-sm-12 col-md-6 mb-0"> Criado em: ${response.date_created} </p>
+                                <p class="date-completed col-sm-12 col-md-6 mb-0"> </p>
+                            </div> <!-- fim content-info -->
+                            <div class="content-remove d-flex">
+                                <i class="bi bi-x-lg py-3 px-3 align-self-center" data-id="${response.identify}" ></i>
+                            </div>
+                            </div> <!-- Fim item-task --> `
                     document.querySelector('.content-task').innerHTML += template
                     task.value = '';
                 }
