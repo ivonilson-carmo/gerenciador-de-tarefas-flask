@@ -78,3 +78,12 @@ item-task .content-info p{
     }
 }
 
+@media (max-width: 576px){
+    body{
+        padding: 0;
+    }
+    
+    #main-container{
+        width: 100%;
+    }
+}
