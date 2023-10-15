@@ -12,9 +12,12 @@ body{
 
 main{
     height: 100%;
-    width: 60%;
+    box-shadow: 1px 1px 15px var(--color-light);
 }
 
+#main-container{
+    width: 60%;
+}
 
 
 .content-header i{
@@ -79,11 +82,8 @@ item-task .content-info p{
 }
 
 @media (max-width: 576px){
-    body{
-        padding: 0;
-    }
-    
-    #main-container{
-        width: 100%;
+    main{
+        margin: 20px 20px !important;
+        width: calc(100% - 40px) !important;
     }
 }
