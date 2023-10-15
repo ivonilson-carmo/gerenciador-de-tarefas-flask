@@ -1,6 +1,4 @@
 :root{
-    --color-primary: #7C27F2;
-    --color-secondary: #6321BF;
     --color-light: #F2F2F2;
     --color-black: #0D0D0D;
 
@@ -8,17 +6,17 @@
 
 body{
     background-color: var(--c3);
+    padding: 20px 0 20px 0;
+    height: 100vh;
 }
 
 main{
-    height: calc(100vh - 40px);
-    margin: 20px 0 20px 0;
+    height: 100%;
     box-shadow: 1px 1px 15px var(--color-light);
 }
 
 #main-container{
     width: 60%;
-    background-color: var(--color-primary);
 }
 
 
@@ -56,6 +54,14 @@ main{
 
 .item-task .content-info{
     margin: 0;
+}
+
+item-task .content-info p{
+    color: var(--color-black);
+}
+
+.item-task .content-info .title-task{
+    color: var(--color-light);
 }
 
 
