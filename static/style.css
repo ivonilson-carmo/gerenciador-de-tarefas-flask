@@ -6,17 +6,13 @@
 
 body{
     background-color: var(--c3);
-    padding: 20px 0 20px 0;
-    height: 100vh;
-}
-
-main{
-    height: 100%;
-    box-shadow: 1px 1px 15px var(--color-light);
 }
 
 #main-container{
     width: 60%;
+    height: calc(100vh - 40px);
+    box-shadow: 1px 1px 15px var(--color-light);
+    margin: 20px auto !important;
 }
 
 
@@ -78,12 +74,5 @@ item-task .content-info p{
 @media (max-width: 780px){
     #main-container{
         width: 90%;
-    }
-}
-
-@media (max-width: 576px){
-    main{
-        margin: 20px 20px !important;
-        width: calc(100% - 40px) !important;
     }
 }
