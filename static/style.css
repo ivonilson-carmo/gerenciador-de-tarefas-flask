@@ -10,9 +10,10 @@ body{
 
 #main-container{
     width: 60%;
-    height: calc(100vh - 40px);
+    height: calc(100svh - 40px);
     box-shadow: 1px 1px 15px var(--color-light);
     margin: 20px auto !important;
+    overflow: hidden;
 }
 
 
@@ -24,9 +25,8 @@ body{
 .content-header i{
     cursor: pointer;
 }
-
 .content-task{
-    height: 100%;
+    overflow-y: scroll;
 }
 
 .content-task::-webkit-scrollbar-thumb {
@@ -39,17 +39,6 @@ body{
 }
 .content-task::-webkit-scrollbar {
     width: 11px;
-}
-
-#check-task{
-    width: 20px;
-    height: 40px;
-    margin-right: 5px;
-}
-
-
-.item-task .content-info{
-    margin: 0;
 }
 
 item-task .content-info p{

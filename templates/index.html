@@ -10,11 +10,11 @@
     <title>  Gerenciador de tarefas </title>
 </head>
 <body >
-    <main class="rounded d-flex flex-column bg-primary" id="main-container">
+    <main class="rounded d-flex flex-column bg-primary bg-gradient" id="main-container">
         <div class="content-header container p-2 ">
             <h1 class="text-center text-dark fs-2 "> Gerenciador De tarefas </h1>
             <form method="post" class="d-flex p-1">
-                <input type="text" name="task-text" class="flex-grow-1 me-2 p-1" autofocus autocomplete="off">
+                <input type="text" name="task-text" class="flex-grow-1 me-2 p-1 form-control" autofocus autocomplete="off">
                 <button class="border-0  bg-white rounded p-2" >
                     <i class="bi bi-plus-lg"></i>
                 </button>
@@ -22,18 +22,18 @@
             <hr class="mt-1">
         </div>
 
-        <div class="content-task d-flex flex-column overflow-y-scroll">
+        <div class="flex-grow-1 content-task d-flex flex-column">
             {% for identify, task, date_created, date_finished in tasks %}
-            <div class="item-task mb-3 d-flex mx-2 p-2 border-1 border-bottom">
-                <form action="" class="check-task" class="d-flex">
+            <div class="item-task  d-flex mx-2 p-2 border-1 border-bottom ">
+                <form action="" class="check-task form-check" class="d-flex">
                     {% if (date_finished == None) %}
-                        <input type="checkbox" name="check" id="check-task" value="{{ identify }}">
+                        <input type="checkbox" name="check" id="check-task" value="{{ identify }}" class="form-check-input">
                     {% else %}
-                        <input type="checkbox" name="check" id="check-task" checked value="{{ identify }}" disabled>
+                        <input type="checkbox" name="check" id="check-task" checked value="{{ identify }}" disabled class="form-check-input">
                     {% endif %}
                 </form>
 
-                <div class="content-info m-0 row flex-grow-1">
+                <div class="content-info m-1 row flex-grow-1">
                     <p class="title-task fs-6 col-12 text-break mb-1"> {{ task }} </p>
                     <p class="date-created col-sm-12 col-md-6 mb-0 "> Criado em: {{ date_created }} </p>
                     <p class="date-completed col-sm-12 col-md-6 mb-0 ">
