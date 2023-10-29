@@ -8,51 +8,51 @@ manager = Manager()
 standart_date = datetime.strptime('2001-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
 
 
-@app.route('/', methods=['POST'])
-def indexPOST():
-    if request.form.get('action'):
-        action = request.form['action']
-
-        if action == 'add':
-            task = request.form.get('task')
-            date_created = datetime.now().strftime('%Y-%m-%d %H:%M')
-            new_item = manager.addTask(task, date_created)
-
-            data = {
-                'task':task,
-                'date_created': date_created,
-                'identify': new_item,
-            }
-
-
-            return jsonify(data)
-        
-        elif action == 'remove':
-            identify = int(request.form['identify'])
-            manager.removeTask(identify)
-
-            return jsonify({})
-        
-        elif action == 'check':
-            date = datetime.now().strftime('%Y-%m-%d %H:%M')
-            identify = int(request.form['identify'])
-
-            manager.checkTask(identify, date)
-
-            return jsonify({
-                'date': str(date),
-            })
-    else:
-        return ''
-
-
-
-
 @app.route('/', methods=['GET'] )
 def indexGET():
     task_list = manager.getTasks()
     return render_template('index.html', tasks=task_list, standart_date=str(standart_date) )
 
+
+@app.route("/task/add", methods=["POST"])
+def addTask():
+    data = request.get_json()
+    task = data.get("task")
+
+    if not task:
+        return {"error": "No task"}
+
+    date_created = datetime.now().strftime("%Y-%m-%d %H:%M")
+    new_item = manager.addTask(task, date_created)
+
+    return jsonify(new_item)
+
+
+@app.route("/task/remove", methods=["POST"])
+def removeTask():
+    data = request.get_json()
+    id = data.get("id")
+
+    if not id:
+        return {"error": "No id"}
+
+    removed = manager.removeTask(id)
+
+    return removed
+
+
+@app.route("/task/update", methods=["POST"])
+def updateTask():
+    data = request.get_json()
+    id = data.get('id')
+    date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    
+    if not id:
+        return jsonify({"error": "No id"})
+    
+    updated = manager.updateTask(id, date)
+
+    return jsonify(updated)
 
 
 if __name__ == '__main__':

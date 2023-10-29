@@ -1,5 +1,6 @@
 from datetime import datetime
 import sqlite3
+from sqlite3 import OperationalError
 
 
 
@@ -42,21 +43,42 @@ class Manager:
             'INSERT INTO tasks (task, date_created, date_finished) VALUES (?, ?, ?)', (task, date_created, None))
         self.saveDB()
 
-        return exec_script.lastrowid
+        return {
+            'task': task,
+            'date_created': date_created,
+            'identify': exec_script.lastrowid
+        }
     
-    def checkTask(self, identify, date):
+    def findByID(self, identify):
+        """ Busca se existe o `identify` na tabela"""
+
+        search = self.cursor.execute(f'SELECT id FROM tasks WHERE id = {identify}')
+        return search.fetchone()
+    
+    def updateTask(self, identify, date):
         """ Marca tarefa como concluida """
         script = f'UPDATE tasks SET date_finished = "{date}" WHERE id = {identify}'
         
-        self.cursor.execute(script)
-        self.saveDB()
+        
+        if self.findByID(identify):
+            self.cursor.execute(script)
+            self.saveDB()
+
+            return {'date_completed': date}
+        
+        return {'error': 'not found id'}
+        
     
     def removeTask(self, identify):
         """ remove registro de tarefa através do id"""
-        script = f'DELETE FROM tasks WHERE id={identify}'
-        self.cursor.execute(script)
+        
+        if self.findByID(identify):
+            self.cursor.execute(f'DELETE FROM tasks WHERE id={identify}')
+            self.saveDB()
 
-        self.saveDB()
+            return {'identify': identify}
+    
+        return {'error': 'not found id'}
     
     def saveDB(self):
         """ Salva registros no banco de dados """
