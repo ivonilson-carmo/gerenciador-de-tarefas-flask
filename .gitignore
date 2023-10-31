@@ -1,2 +1,2 @@
-venv/
-./storage.db
+./venv/*
+storage.db
