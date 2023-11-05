@@ -73,6 +73,9 @@ def postCadastro():
 
         data = manager.addUser(user, email, passwd)
 
+        if 'error' in data:
+            return data
+
         session["user"] = user
         session["email"] = email
         session["passwd"] = passwd

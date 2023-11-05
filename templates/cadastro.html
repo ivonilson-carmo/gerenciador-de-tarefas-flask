@@ -60,7 +60,6 @@
             let user = document.querySelector('#user').value;
             let email = document.querySelector('#email').value;
             let passwd = document.querySelector('#passwd').value;
-            console.log('oi-cad')
             
             $.ajax({
                 type: 'POST',
@@ -68,11 +67,9 @@
                 data: JSON.stringify({ email, passwd, user}),
                 contentType: 'application/json',
                 success: (response) => {
-                    console.log(response)
                     if (response.error){
-                        alert('Error na sua solicitação!!');
+                        alert(`Erro: ${response.error}`);
                     }else{
-                        console.log('sessão criada');
                         location.reload()
                     }
                 }

@@ -73,6 +73,15 @@ class Manager:
     def addUser(self, user, email, senha):
         """ Adciona novo usuario no sistema """
         date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        checkEmail = self.checkEmail(email)
+        if checkEmail:  # verifica se já existe o email
+            return {'error': 'E-mail já existente, faça login ou utilize outro!'}
+        
+        checkUser = self.checkUser(user)
+        if checkUser:
+            return {'error': 'Nome de usuário não está disponível, tente novamente!'}
+        
         script = 'INSERT INTO users (username, email, senha, created_at)  VALUES (?, ?, ?, ?)'
         exec_script = self.cursor.execute(script, (user, email, senha, date))
 
