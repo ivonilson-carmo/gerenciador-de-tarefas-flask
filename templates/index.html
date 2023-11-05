@@ -23,10 +23,10 @@
         </div>
 
         <div class="flex-grow-1 content-task d-flex flex-column">
-            {% for identify, task, date_created, date_finished in tasks %}
+            {% for identify, task, created_at, completed_at, id_user in tasks %}
             <div class="item-task  d-flex mx-2 p-2 border-1 border-bottom ">
                 <form action="" class="check-task form-check" class="d-flex">
-                    {% if (date_finished == None) %}
+                    {% if (completed_at == None) %}
                         <input type="checkbox" name="check" id="check-task" value="{{ identify }}" class="form-check-input">
                     {% else %}
                         <input type="checkbox" name="check" id="check-task" checked value="{{ identify }}" disabled class="form-check-input">
@@ -35,9 +35,9 @@
 
                 <div class="content-info m-1 row flex-grow-1">
                     <p class="title-task fs-6 col-12 text-break mb-1"> {{ task }} </p>
-                    <p class="date-created col-sm-12 col-md-6 mb-0 "> Criado em: {{ date_created }} </p>
-                    <p class="date-completed col-sm-12 col-md-6 mb-0 ">
-                        {{ 'Concluido em: {}'.format(date_finished) if (date_finished != None) else '' }}
+                    <p class="created-at col-sm-12 col-md-6 mb-0 "> Criado em: {{ created_at }} </p>
+                    <p class="completed-at col-sm-12 col-md-6 mb-0 ">
+                        {{ 'Concluido em: {}'.format(completed_at) if (completed_at != None) else '' }}
                     </p>
                 </div> 
 

@@ -41,7 +41,7 @@ body{
     width: 11px;
 }
 
-item-task .content-info p{
+.item-task .content-info p{
     color: var(--color-black);
 }
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title> Entre ou cadastre-se </title>
+    <style>
+        body{
+            height: 100svh;
+        }
+        main{
+            width: 420px;
+        }
+        .logo{
+            height: 200px;
+        }
+        @media (max-width: 480px){
+            main{
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body class="d-flex">
+
+    <main class="bg-primary m-auto pt-3 bg-opacity-75 rounded">
+        <div class="logo d-flex">
+            <img src="static/logo-Y-task.png" alt="Logo do site" class="h-100 m-auto">
+        </div>
+
+        <form class="form p-2 d-flex flex-column align-items-center" id="form-cadastro">
+            <div class="w-75 mb-3 form-floating">
+                <input type="text" class="form-control" id="user" placeholder=" " autocomplete="off">
+                <label for="user" class="form-label"> Nome de usúario </label>
+            </div>
+
+            <div class="w-75 mb-3 form-floating">
+                <input type="email" class="form-control" id="email" placeholder=" ">
+                <label for="email" class="form-label"> Endereço de e-mail </label>
+            </div>
+
+            <div class="w-75 mb-3 form-floating">
+                <input type="password" class="form-control" id="passwd" placeholder=" " autocomplete="off">
+                <label for="passwd" class="form-label"> Senha </label>
+            </div>
+
+            <p class=""> Já possui conta? <a href="{{ url_for('getLogin') }}" class="text-light">Entre na sua conta.</a></p>
+            <button class="btn btn-light mb-3"> Criar Conta </button>
+
+        </form>
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  
+    <script>
+        document.querySelector('#form-cadastro').addEventListener('submit', event => {
+            event.preventDefault();
+            let user = document.querySelector('#user').value;
+            let email = document.querySelector('#email').value;
+            let passwd = document.querySelector('#passwd').value;
+            console.log('oi-cad')
+            
+            $.ajax({
+                type: 'POST',
+                url: '/user/cadastro',
+                data: JSON.stringify({ email, passwd, user}),
+                contentType: 'application/json',
+                success: (response) => {
+                    console.log(response)
+                    if (response.error){
+                        alert('Error na sua solicitação!!');
+                    }else{
+                        console.log('sessão criada');
+                        location.reload()
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
